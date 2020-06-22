@@ -13,6 +13,7 @@
 .navbar-logo {
     margin: 4px 0px;
     float: left;
+    transform: translateY(15%);
 }
 
 #navbar-login {
