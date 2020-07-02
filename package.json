@@ -5,7 +5,7 @@
     "type": "git",
     "url": "git+https://github.com/gophish/gophish.git"
   },
-  "author": "Jordan Wright",
+  "author": "Efycat",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/gophish/gophish/issues"

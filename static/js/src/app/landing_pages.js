@@ -1,7 +1,7 @@
 /*
 	landing_pages.js
 	Handles the creation, editing, and deletion of landing pages
-	Author: Jordan Wright <github.com/jordan-wright>
+	Author: Efycat <github.com/jordan-wright>
 */
 var pages = []
 
@@ -13,7 +13,6 @@ function save(idx) {
     editor = CKEDITOR.instances["html_editor"]
     page.html = editor.getData()
     page.capture_credentials = $("#capture_credentials_checkbox").prop("checked")
-    page.capture_passwords = $("#capture_passwords_checkbox").prop("checked")
     page.redirect_url = $("#redirect_url_input").val()
     if (idx != -1) {
         page.id = pages[idx].id
@@ -44,8 +43,6 @@ function dismiss() {
     $("#url").val("")
     $("#redirect_url_input").val("")
     $("#modal").find("input[type='checkbox']").prop("checked", false)
-    $("#capture_passwords").hide()
-    $("#redirect_url").hide()
     $("#modal").modal('hide')
 }
 
@@ -117,12 +114,7 @@ function edit(idx) {
         $("#name").val(page.name)
         $("#html_editor").val(page.html)
         $("#capture_credentials_checkbox").prop("checked", page.capture_credentials)
-        $("#capture_passwords_checkbox").prop("checked", page.capture_passwords)
         $("#redirect_url_input").val(page.redirect_url)
-        if (page.capture_credentials) {
-            $("#capture_passwords").show()
-            $("#redirect_url").show()
-        }
     }
 }
 
@@ -232,8 +224,7 @@ $(document).ready(function () {
         dismiss()
     });
     $("#capture_credentials_checkbox").change(function () {
-        $("#capture_passwords").toggle()
-        $("#redirect_url").toggle()
+        $("#alert_capture_credentials_checkbox").toggle();
     })
     CKEDITOR.on('dialogDefinition', function (ev) {
         // Take the dialog name and its definition from the event data.

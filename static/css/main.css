@@ -13,7 +13,8 @@
 .navbar-logo {
     margin: 4px 0px;
     float: left;
-    transform: translateY(15%);
+    height: 28px;
+    transform: translateY(18%);
 }
 
 #navbar-login {
@@ -99,9 +100,21 @@ ul .dropdown-menu .ng-isolate-scope {
 }
 
 #logo {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    height: 150px;
+    vertical-align: middle;
+}
+
+#logo_title {
+    font-size: 18px;
+    max-width: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+#logo_container {
+    text-align: center;
+    margin: 40px auto 0 auto;
 }
 
 footer>p {
@@ -627,14 +640,6 @@ i.fa-laptop+i.fa-vendor-icon {
     display: none;
 }
 
-#capture_passwords {
-    display: none;
-}
-
-#redirect_url {
-    display: none;
-}
-
 @media (max-width: 767px) {
     .navbar-header {
         margin-left: 10px !important;
@@ -730,4 +735,8 @@ table.dataTable {
 
 .cke_autocomplete_panel>li {
     padding: 10px 5px !important;
+}
+
+#alert_capture_credentials_checkbox {
+    display: none;
 }

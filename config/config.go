@@ -41,7 +41,7 @@ type Config struct {
 var Version = ""
 
 // ServerName is the server type that is returned in the transparency response.
-const ServerName = "Ephicat"
+const ServerName = "Efycat"
 
 // LoadConfig loads the configuration from the specified filepath
 func LoadConfig(filepath string) (*Config, error) {

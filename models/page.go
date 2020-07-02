@@ -11,14 +11,14 @@ import (
 
 // Page contains the fields used for a Page model
 type Page struct {
-	Id                 int64     `json:"id" gorm:"column:id; primary_key:yes"`
-	UserId             int64     `json:"-" gorm:"column:user_id"`
-	Name               string    `json:"name"`
-	HTML               string    `json:"html" gorm:"column:html"`
-	CaptureCredentials bool      `json:"capture_credentials" gorm:"column:capture_credentials"`
-	CapturePasswords   bool      `json:"capture_passwords" gorm:"column:capture_passwords"`
-	RedirectURL        string    `json:"redirect_url" gorm:"column:redirect_url"`
-	ModifiedDate       time.Time `json:"modified_date"`
+	Id                 int64  `json:"id" gorm:"column:id; primary_key:yes"`
+	UserId             int64  `json:"-" gorm:"column:user_id"`
+	Name               string `json:"name"`
+	HTML               string `json:"html" gorm:"column:html"`
+	CaptureCredentials bool   `json:"capture_credentials" gorm:"column:capture_credentials"`
+	/*CapturePasswords   bool      `json:"capture_passwords" gorm:"column:capture_passwords"`*/
+	RedirectURL  string    `json:"redirect_url" gorm:"column:redirect_url"`
+	ModifiedDate time.Time `json:"modified_date"`
 }
 
 // ErrPageNameNotSpecified is thrown if the name of the landing page is blank.
@@ -37,25 +37,14 @@ func (p *Page) parseHTML() error {
 		// sent to our server
 		f.SetAttr("action", "")
 		if p.CaptureCredentials {
-			// If we don't want to capture passwords,
-			// find all the password fields and remove the "name" attribute.
-			if !p.CapturePasswords {
-				inputs := f.Find("input")
-				inputs.Each(func(j int, input *goquery.Selection) {
-					if t, _ := input.Attr("type"); strings.EqualFold(t, "password") {
-						input.RemoveAttr("name")
-					}
-				})
-			} else {
-				// If the user chooses to re-enable the capture passwords setting,
-				// we need to re-add the name attribute
-				inputs := f.Find("input")
-				inputs.Each(func(j int, input *goquery.Selection) {
-					if t, _ := input.Attr("type"); strings.EqualFold(t, "password") {
-						input.SetAttr("name", "password")
-					}
-				})
-			}
+			// we don't want to capture passwords,
+			// so we find all the password fields and remove the "name" attribute.
+			inputs := f.Find("input")
+			inputs.Each(func(j int, input *goquery.Selection) {
+				if t, _ := input.Attr("type"); strings.EqualFold(t, "password") {
+					input.RemoveAttr("name")
+				}
+			})
 		} else {
 			// Otherwise, remove the name from all
 			// inputs.
@@ -73,11 +62,6 @@ func (p *Page) parseHTML() error {
 func (p *Page) Validate() error {
 	if p.Name == "" {
 		return ErrPageNameNotSpecified
-	}
-	// If the user specifies to capture passwords,
-	// we automatically capture credentials
-	if p.CapturePasswords && !p.CaptureCredentials {
-		p.CaptureCredentials = true
 	}
 	if err := ValidateTemplate(p.HTML); err != nil {
 		return err

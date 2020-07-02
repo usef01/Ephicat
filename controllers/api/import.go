@@ -134,6 +134,13 @@ func (as *Server) ImportSite(w http.ResponseWriter, r *http.Request) {
 	if d.Find("head base").Length() == 0 {
 		d.Find("head").PrependHtml(fmt.Sprintf("<base href=\"%s\">", cr.URL))
 	}
+
+	// Remove all script elements from the page
+	scripts := d.Find("script")
+	if scripts.Length() != 0 {
+		scripts.Remove()
+	}
+
 	forms := d.Find("form")
 	forms.Each(func(i int, f *goquery.Selection) {
 		// We'll want to store where we got the form from
